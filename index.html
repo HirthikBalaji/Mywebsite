@@ -7,9 +7,36 @@
 </head>
 <body>
     <h1>Create Text File</h1>
-    <form action="/create_file" method="post">
-        <textarea name="user_input" rows="10" cols="50" placeholder="Enter text here..."></textarea><br>
-        <button type="submit">Download Text File</button>
-    </form>
+    <textarea id="userInput" rows="10" cols="50" placeholder="Enter text here..."></textarea><br>
+    <button onclick="sendDataToServer()">Download Text File</button>
+    <p id="message"></p>
+
+    <script>
+        function sendDataToServer() {
+            var userInput = document.getElementById("userInput").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "create_file.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            // File creation successful
+                            document.getElementById("message").textContent = response.message;
+                        } else {
+                            // File creation failed
+                            document.getElementById("message").textContent = response.message;
+                        }
+                    } else {
+                        // Error handling for failed request
+                        document.getElementById("message").textContent = "Error: Server response status " + xhr.status;
+                    }
+                }
+            };
+            xhr.send("userInput=" + encodeURIComponent(userInput));
+        }
+    </script>
 </body>
 </html>
+
