@@ -4,37 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Text File</title>
-    <script>
-        function createTextFile() {
-            // Get the user input from the text area
-            var userInput = document.getElementById("userInput").value;
-            
-            // Create a Blob object containing the user input
-            var blob = new Blob([userInput], {type: "text/plain"});
-            
-            // Create a link element
-            var a = document.createElement("a");
-            
-            // Set the link's href attribute to a URL representing the Blob object
-            a.href = window.URL.createObjectURL(blob);
-            
-            // Set the filename for the downloaded file
-            a.download = "user_input.txt";
-            
-            // Append the link to the body
-            document.body.appendChild(a);
-            
-            // Click the link programmatically to trigger the download
-            a.click();
-            
-            // Remove the link from the DOM
-            document.body.removeChild(a);
-        }
-    </script>
 </head>
 <body>
     <h1>Create Text File</h1>
-    <textarea id="userInput" rows="10" cols="50" placeholder="Enter text here..."></textarea><br>
-    <button onclick="createTextFile()">Download Text File</button>
+    <form action="/create_file" method="post">
+        <textarea name="user_input" rows="10" cols="50" placeholder="Enter text here..."></textarea><br>
+        <button type="submit">Download Text File</button>
+    </form>
 </body>
 </html>
