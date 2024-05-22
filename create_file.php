@@ -11,18 +11,22 @@ if (isset($_POST['userInput'])) {
     // Attempt to create or overwrite the file with the user input
     $file = fopen($filename, 'w');
     if ($file) {
-        fwrite($file, $userInput);
-        fclose($file);
+        if (fwrite($file, $userInput)) {
+            fclose($file);
 
-        // File creation was successful
-        echo json_encode(['success' => true]);
+            // File creation was successful
+            echo json_encode(['success' => true, 'message' => 'File created successfully.']);
+        } else {
+            // Writing to file failed
+            echo json_encode(['success' => false, 'message' => 'Failed to write to file.']);
+        }
     } else {
         // File creation failed
-        echo json_encode(['success' => false]);
+        echo json_encode(['success' => false, 'message' => 'Failed to create file.']);
     }
 } else {
     // No user input provided
-    echo json_encode(['success' => false]);
+    echo json_encode(['success' => false, 'message' => 'No user input provided.']);
 }
 
 ?>
